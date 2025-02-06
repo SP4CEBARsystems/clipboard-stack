@@ -47,6 +47,10 @@ updateIndicator(){
 	global MyEdit
 	contents := ""
 	For index, value in register
-		contents .= index + 1 . ": " . value . "`n"
+		contents .= register.Length() - index + 1 . ": " . value . "`n"
+	If (contents = "")
+	{
+		contents := "Your clipboard is empty. When you use alt + c to copy multiple things they will appear here. and alt + v to paste the bottom item."
+	}
 	GuiControl,, MyEdit, %contents%
 }
