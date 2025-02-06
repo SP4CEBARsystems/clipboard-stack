@@ -50,7 +50,7 @@ updateIndicator(){
 		contents .= register.Length() - index + 1 . ": " . value . "`n"
 	If (contents = "")
 	{
-		contents := "Your clipboard is empty. When you use alt + c to copy multiple things they will appear here. and alt + v to paste the bottom item."
+		contents := "Your clipboard is empty. When you use alt + c to copy multiple things they will appear here. Use alt + v to paste the bottom item."
 	}
 	GuiControl,, MyEdit, %contents%
 }
