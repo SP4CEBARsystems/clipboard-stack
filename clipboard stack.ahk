@@ -46,8 +46,16 @@ updateIndicator(){
 	global register
 	global MyEdit
 	contents := ""
-	For index, value in register
-		contents .= register.Length() - index + 1 . ": " . value . "`n"
+	For index, value in register {
+		displayedIndex := register.Length() - index + 1
+		; ifequal displayedIndex,1,
+		; (displayedIndex = 1 ? ">" : displayedIndex)
+		If (displayedIndex = 1){
+			contents .= displayedIndex . ": > " . value . " < `n"
+		} Else {
+			contents .= displayedIndex . ": " . value . "`n"
+		}
+	}
 	If (contents = "")
 	{
 		contents := "Your clipboard is empty. When you use alt + c to copy multiple things they will appear here. Use alt + v to paste the bottom item."
