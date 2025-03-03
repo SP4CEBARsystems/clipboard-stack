@@ -4,28 +4,70 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 global register := []
+; global shouldIgnoreNextClipboardChange = false
 
 showIndicator()
 
-!c::copyToRegister()
-!v::pasteFromRegister()
+#Persistent
+OnClipboardChange("pushClipboardToRegister")
+return
 
-copyToRegister()
+!c::copyToRegister()
+!v::popFromRegister()
+; ^v::pasteFromRegister()s
+
+pushClipboardToRegister()
 {
+	; global shouldIgnoreNextClipboardChange
+	; if (shouldIgnoreNextClipboardChange) {
+	; 	shouldIgnoreNextClipboardChange = false
+    ;     return
+    ; }
 	global register
-	Clipboard := ""
-	send ^c
-	ClipWait, 5 ; Wait for max. 5 seconds
 	register.Push(clipboard)
 	updateIndicator()
 }
 
+pasteText(text)
+{
+	SendInput % text
+	; ControlSend,, %text%, A
+	; global shouldIgnoreNextClipboardChange = true
+	; shouldIgnoreNextClipboardChange = true  ; Disable monitoring
+    ; savedClip := ClipboardAll      ; Backup existing clipboard
+    ; Clipboard := text              ; Set clipboard to text
+    ; ClipWait, 1                    ; Ensure clipboard is set
+    ; Send, ^v                       ; Paste
+    ; Sleep, 50                      ; Short delay to ensure paste completes
+    ; Clipboard := savedClip          ; Restore clipboard
+}
+
+copyToRegister()
+{
+	Clipboard := ""
+	send ^c
+	ClipWait, 5 ; Wait for max. 5 seconds
+	pushClipboardToRegister()
+}
+
+; unShiftClipboardToRegister()
+; {
+; 	global register
+; 	register.Push(clipboard)
+; 	updateIndicator()
+; }
+
 pasteFromRegister()
 {
 	global register
-	global bank
-	clipboard := register.Pop()
-	send ^v
+	pasteText( register[register.MaxIndex()] )
+	updateIndicator()
+}
+
+popFromRegister()
+{
+	global register
+	pasteText( register.Pop() )
 	updateIndicator()
 }
 
