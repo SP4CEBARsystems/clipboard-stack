@@ -7,7 +7,7 @@ I have provided an [executable](https://github.com/SP4CEBARsystems/clipboard-sta
 ## Stopping The Macro
 When an AHK macro is running, you can stop it from its tray icon.
 
-### Controls
+## Controls
 - The tool will monitor the clipboard and automatically push any changes to the stack.
 - `ctrl` + `v` to paste from the clipboard stack.
 - `alt` + `v` to pop from the clipboard stack and paste.
